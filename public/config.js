@@ -14,7 +14,7 @@ const CONFIG = {
     SUPABASE_KEY:  'sb_publishable_JNFx3kEtgpHwapmJRVGCRw_tnp-8nn3',
 
     // ── Razorpay (publishable key only) ──────────────────────────
-    RAZORPAY_KEY_ID: 'rzp_test_SUj1774FIQJ5IN',
+    RAZORPAY_KEY_ID: 'rzp_test_SUxtfaXBWSbahG',
 
     // ── AI proxy endpoints (Vercel API routes) ──────────────────────
     // These route through your backend so no secret keys are exposed
