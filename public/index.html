@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Security headers (Netlify _headers file enforces these server-side) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(self), geolocation=()">
+    <!-- CSP: allow scripts from self, Google APIs, CDNs we actually use -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline'
+        https://accounts.google.com
+        https://cdn.jsdelivr.net
+        https://cdnjs.cloudflare.com
+        https://js.puter.com
+        https://apis.google.com
+        https://checkout.razorpay.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src https://fonts.gstatic.com;
+      img-src 'self' data: https: blob:;
+      connect-src 'self'
+        https://ldijcqmlfxlpsjriugek.supabase.co
+        https://accounts.google.com
+        https://www.googleapis.com
+        https://generativelanguage.googleapis.com
+        https://api.groq.com
+        https://api.bytez.com
+        https://api.razorpay.com
+        https://lumberjack.razorpay.com;
+      frame-ancestors 'none';
+      base-uri 'self';
+      form-action 'self';
+    ">
+    <meta name="description" content="Keryo AI — One AI for study, code, and creation. Ask in Hindi, English, or Hinglish.">
+    <title>Keryo AI — Your Intelligent Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" id="hljs-theme">
+    <link rel="stylesheet" href="style.css">
+    <script src="config.js"></script>
+    <script src="https://js.puter.com/v2/" async></script>
+</head>
+<body>
+<!-- ══════════════════════════════════════
+     LANDING PAGE — v6 Clean & Premium
+══════════════════════════════════════ -->
+<div id="landing-page" class="lp-page">
+
+    <canvas id="landing-canvas" class="lp-canvas"></canvas>
+    <div class="lp-prog" id="lp-prog"></div>
+
+    <!-- ── Nav ── -->
+    <nav class="lp-nav" id="lp-nav">
+        <div class="lp-nav-in">
+            <div class="lp-nav-logo">
+                <div class="lp-nav-logomark">
+                    <svg viewBox="0 0 40 40" fill="none" width="26" height="26">
+                        <polygon class="lp-hex" points="20,2 36,11 36,29 20,38 4,29 4,11"/>
+                        <rect class="lp-kb" x="12" y="10" width="4" height="20" rx="1.5"/>
+                        <polygon class="lp-kt" points="16,20 26,10 30,10 20,20"/>
+                        <polygon class="lp-kb2" points="16,20 26,30 30,30 20,20"/>
+                        <circle class="lp-kd" cx="20" cy="20" r="2"/>
+                    </svg>
+                </div>
+                <span class="lp-nav-brand">Keryo <strong>AI</strong></span>
+            </div>
+            <div class="lp-nav-actions">
+                <span class="lp-nav-badge">Beta</span>
+                <button id="lp-signin-btn" class="lp-nav-signin-btn">Sign in</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ── Hero ── -->
+    <section class="lp-hero">
+        <div class="lp-hero-in">
+
+            <!-- Logo animation -->
+            <div class="lp-logo-stage lp-fadein" style="--d:.05s">
+                <div class="lp-logomark" id="lp-logomark">
+                    <div class="lp-logo-glow"></div>
+                    <div class="lp-logo-ring r1"></div>
+                    <div class="lp-logo-ring r2"></div>
+                    <svg class="lp-logo-svg" viewBox="0 0 80 80" fill="none">
+                        <polygon class="lp-svg-hex" points="40,4 72,22 72,58 40,76 8,58 8,22"/>
+                        <rect class="lp-svg-bar" x="24" y="18" width="8" height="44" rx="3"/>
+                        <polygon class="lp-svg-top" points="32,40 54,18 62,18 40,40"/>
+                        <polygon class="lp-svg-bot" points="32,40 54,62 62,62 40,40"/>
+                        <circle class="lp-svg-dot" cx="40" cy="40" r="4"/>
+                    </svg>
+                    <div class="lp-logo-particles">
+                        <span class="lp-lp lp1"></span>
+                        <span class="lp-lp lp2"></span>
+                        <span class="lp-lp lp3"></span>
+                        <span class="lp-lp lp4"></span>
+                        <span class="lp-lp lp5"></span>
+                        <span class="lp-lp lp6"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Headline + CTAs -->
+            <div class="lp-hero-text">
+                <p class="lp-eyebrow lp-fadein" style="--d:.15s">One AI. Every task.</p>
+                <h1 class="lp-headline lp-fadein" style="--d:.28s">
+                    Study, code, and create<br>
+                    <span class="lp-grad">with Keryo AI</span>
+                </h1>
+                <p class="lp-subhead lp-fadein" style="--d:.42s">
+                    Ask in Hindi, English, or Hinglish. Built for students, developers, creators, and writers.
+                </p>
+
+                <div class="lp-cta-group lp-fadein" style="--d:.56s">
+                    <button id="landing-google-btn" class="lp-btn-google">
+                        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                        </svg>
+                        Continue with Google
+                    </button>
+                    <button id="landing-guest-btn" class="lp-btn-guest">
+                        Continue as Guest
+                    </button>
+                </div>
+
+                <p class="lp-guest-note lp-fadein" style="--d:.68s">
+                    Guest mode saves less data. You can sign in any time.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── About ── -->
+    <section class="lp-about lp-reveal">
+        <div class="lp-section-in lp-center">
+            <p class="lp-tag">What is Keryo AI?</p>
+            <h2 class="lp-sh2">One AI for everything you do</h2>
+            <p class="lp-about-text">
+                Fast, private, and simple. Ask anything in your language — from exam notes to debugging code to writing a script. Keryo adapts to how you think.
+            </p>
+            <div class="lp-usecase-row">
+                <span class="lp-uc" style="--uc:#5F43E9">Developer</span>
+                <span class="lp-uc" style="--uc:#22c55e">Student</span>
+                <span class="lp-uc" style="--uc:#f472b6">Creator</span>
+                <span class="lp-uc" style="--uc:#fb923c">Writer</span>
+                <span class="lp-uc" style="--uc:#a78bfa">Research</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Features ── -->
+    <section class="lp-features lp-reveal">
+        <div class="lp-section-in">
+            <p class="lp-tag lp-center">Features</p>
+            <h2 class="lp-sh2 lp-center">Built for real work</h2>
+            <div class="lp-feat-grid">
+                <div class="lp-fcard">
+                    <div class="lp-ficon" style="--fc:#5F43E9;--fb:rgba(95,67,233,.1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    </div>
+                    <p class="lp-ftitle">AI Chat</p>
+                    <p class="lp-fdesc">Streaming answers with memory &amp; Hindi / Hinglish support.</p>
+                </div>
+                <div class="lp-fcard">
+                    <div class="lp-ficon" style="--fc:#60a5fa;--fb:rgba(96,165,250,.1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </div>
+                    <p class="lp-ftitle">Code</p>
+                    <p class="lp-fdesc">Debug, explain, and build in any language with highlighting.</p>
+                </div>
+                <div class="lp-fcard">
+                    <div class="lp-ficon" style="--fc:#f472b6;--fb:rgba(244,114,182,.1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                    <p class="lp-ftitle">Image Generation</p>
+                    <p class="lp-fdesc">AI images with FLUX — describe it, get it. Free.</p>
+                </div>
+                <div class="lp-fcard">
+                    <div class="lp-ficon" style="--fc:#22c55e;--fb:rgba(34,197,94,.1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+                    </div>
+                    <p class="lp-ftitle">Study Tools</p>
+                    <p class="lp-fdesc">MCQs, notes, formulas, revision plans — all subjects.</p>
+                </div>
+                <div class="lp-fcard">
+                    <div class="lp-ficon" style="--fc:#f59e0b;--fb:rgba(245,158,11,.1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                    </div>
+                    <p class="lp-ftitle">Web Search</p>
+                    <p class="lp-fdesc">Live search built in — current facts and news instantly.</p>
+                </div>
+                <div class="lp-fcard">
+                    <div class="lp-ficon" style="--fc:#a78bfa;--fb:rgba(167,139,250,.1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                    </div>
+                    <p class="lp-ftitle">Voice Input</p>
+                    <p class="lp-fdesc">Speak in Hindi or English — Keryo understands.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Trust ── -->
+    <section class="lp-trust lp-reveal">
+        <div class="lp-section-in">
+            <p class="lp-tag lp-center">Why Keryo?</p>
+            <div class="lp-trust-grid">
+                <div class="lp-trust-item">🔒<span><strong>Secure by default</strong><br>Sign in with Google only — no passwords, no leaks.</span></div>
+                <div class="lp-trust-item">💬<span><strong>Chats are saved</strong><br>Every conversation stays in your account, safe and private.</span></div>
+                <div class="lp-trust-item">🛡️<span><strong>Your data stays yours</strong><br>We don't sell, share, or use your data for ads.</span></div>
+                <div class="lp-trust-item">⚡<span><strong>Open instantly</strong><br>No waitlist, no setup, no credit card needed.</span></div>
+                <div class="lp-trust-item">🚫<span><strong>Zero spam</strong><br>No promotional emails. Ever. You're in control.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Developer ── -->
+    <section class="lp-dev lp-reveal">
+        <div class="lp-dev-card">
+            <img src="profile.jpg" alt="Roshan" class="lp-dev-av lp-dev-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="lp-dev-av lp-dev-av-fallback" style="display:none">R</div>
+            <div>
+                <p class="lp-dev-name">Built by <strong>Roshan</strong></p>
+                <p class="lp-dev-sub">A solo project for students and builders.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer class="lp-footer">
+        <div class="lp-footer-in">
+            <div class="lp-footer-links">
+                <a href="privacy.html" class="lp-fl" target="_blank">Privacy Policy</a>
+                <a href="terms.html" class="lp-fl" target="_blank">Terms</a>
+                <a href="mailto:hello@keryo.ai" class="lp-fl">Contact</a>
+                <span class="lp-fl">Built by Roshan</span>
+            </div>
+            <div class="lp-footer-copy">&copy; 2026 Keryo AI · All rights reserved</div>
+            <div class="lp-footer-legal">By continuing, you agree to our <a href="privacy.html" target="_blank">Privacy Policy</a> and <a href="terms.html" target="_blank">Terms</a>.</div>
+        </div>
+    </footer>
+
+</div><!-- /landing-page -->
+
+<!-- ── Auth Modal (overlays landing) ── -->
+<div id="auth-modal" class="auth-modal-backdrop" style="display:none" aria-modal="true" role="dialog" aria-label="Sign in to Keryo AI">
+    <div class="auth-modal-box">
+        <button class="auth-modal-close" id="auth-modal-close" aria-label="Close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="auth-modal-logo">
+            <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                <polygon fill="rgba(95,67,233,0.12)" stroke="#5F43E9" stroke-width="1.2" points="20,2 36,11 36,29 20,38 4,29 4,11"/>
+                <rect fill="#5F43E9" x="12" y="10" width="4" height="20" rx="1.5"/>
+                <polygon fill="#5F43E9" opacity=".9" points="16,20 26,10 30,10 20,20"/>
+                <polygon fill="#5F43E9" opacity=".7" points="16,20 26,30 30,30 20,20"/>
+                <circle fill="#00C9FF" cx="20" cy="20" r="2"/>
+            </svg>
+        </div>
+        <h2 class="auth-modal-title">Welcome to Keryo AI</h2>
+        <p class="auth-modal-sub">Sign in for saved chats, full memory, and all features.</p>
+        <div class="auth-modal-btns">
+            <button id="auth-google-btn" class="auth-btn-google">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Continue with Google
+            </button>
+            <button id="auth-guest-btn" class="auth-btn-guest">
+                Continue as Guest
+            </button>
+        </div>
+        <p class="auth-modal-note">Guest mode saves less data. You can sign in any time later.</p>
+    </div>
+</div>
+<!-- MAIN APP — hidden until landing page dismissed -->
+<div class="app" id="app" style="display:none">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sb-logo" id="sb-logo" title="Keryo AI">
+                <div class="sb-logo-icon">
+                    <svg class="sb-logo-svg sb-logo-3d" viewBox="0 0 40 40" fill="none">
+                        <polygon class="sb-hex" points="20,2 36,11 36,29 20,38 4,29 4,11"/>
+                        <rect class="sb-k-bar" x="12" y="10" width="4" height="20" rx="1.5"/>
+                        <polygon class="sb-k-top" points="16,20 26,10 30,10 20,20"/>
+                        <polygon class="sb-k-bot" points="16,20 26,30 30,30 20,20"/>
+                        <circle class="sb-dot" cx="20" cy="20" r="2"/>
+                    </svg>
+                </div>
+                <span class="sb-logo-text">Keryo <span>AI</span></span>
+            </div>
+            <button id="sidebar-collapse-btn" class="sb-collapse-btn" title="Collapse">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+        </div>
+
+        <button id="new-chat-btn" class="new-chat-btn" title="New Chat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span class="btn-label">New Chat</span>
+        </button>
+
+        <div class="sidebar-search-wrap">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="chat-search" class="sidebar-search" placeholder="Search chats…" autocomplete="off">
+        </div>
+
+        <div class="chat-history-scroll">
+            <div class="chat-section-label">Recent</div>
+            <div id="chat-list" class="chat-list"></div>
+        </div>
+
+        <!-- Collapsed-only actions (upgrade + search) -->
+        <div class="sb-collapsed-actions" id="sb-collapsed-actions" style="display:none">
+            <button class="sb-icon-action" id="sb-upgrade-icon-btn" title="Upgrade">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </button>
+            <button class="sb-icon-action" id="sb-search-icon-btn" title="Search chats">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </button>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div id="profile-card" class="profile-card" style="display:none">
+                <div class="profile-menu" id="profile-menu" style="display:none">
+                    <div class="profile-menu-header">
+                        <div class="pm-avatar" id="pm-avatar-img"></div>
+                        <div><div class="pm-name" id="pm-name"></div><div class="pm-email" id="pm-email"></div></div>
+                    </div>
+                    <div class="pm-divider"></div>
+                    <button class="pm-item" id="pm-settings-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</button>
+                    <button class="pm-item pm-upgrade-btn" id="pm-upgrade-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Upgrade to Pro</button>
+                    <div class="pm-divider"></div>
+                    <button class="pm-item pm-logout" id="pm-logout-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign out</button>
+                </div>
+                <div class="profile-card-inner" id="profile-card-trigger">
+                    <div class="profile-avatar-wrap">
+                        <img id="profile-pic" src="" alt="Profile" class="profile-pic">
+                        <div class="profile-status-dot"></div>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-name" id="profile-name">User</div>
+                        <div class="profile-plan-badge" id="profile-plan-badge">Free</div>
+                    </div>
+                    <svg class="profile-chevron" id="profile-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+            </div>
+            <div id="guest-sidebar-card" class="guest-sidebar-card" style="display:none">
+                <p class="gsc-text">Sign in to save chats</p>
+                <button id="gsc-signin-btn" class="gsc-btn">
+                    <svg width="13" height="13" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                    <span>Sign in</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main chat area -->
+    <div class="chat-area">
+
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <button id="menu-btn" class="icon-btn mobile-only" aria-label="Menu">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="16" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div class="nav-logo" id="nav-logo" style="display:none">
+                    <svg class="nav-logo-svg" viewBox="0 0 40 40" fill="none" width="22" height="22">
+                        <polygon class="sb-hex" points="20,2 36,11 36,29 20,38 4,29 4,11"/>
+                        <rect class="sb-k-bar" x="12" y="10" width="4" height="20" rx="1.5"/>
+                        <polygon class="sb-k-top" points="16,20 26,10 30,10 20,20"/>
+                        <polygon class="sb-k-bot" points="16,20 26,30 30,30 20,20"/>
+                        <circle class="sb-dot" cx="20" cy="20" r="2"/>
+                    </svg>
+                    <span class="nav-logo-text">Keryo <strong>AI</strong></span>
+                </div>
+            </div>
+
+            <div class="nav-center">
+                <div class="model-picker" id="model-picker">
+                    <button class="model-pick-btn" id="model-pick-btn" aria-haspopup="true" aria-expanded="false">
+                        <span class="model-pick-name" id="model-pick-name">Keryo Spark</span>
+                        <svg class="model-pick-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="model-pick-menu" id="model-pick-menu">
+                        <button class="model-pick-option mpo-active" data-model="keryo-free" data-plan="free">
+                            <div class="mpo-info">
+                                <span class="mpo-name">Keryo Spark</span>
+                                <span class="mpo-desc">Fast · Free · Reliable</span>
+                            </div>
+                            <span class="mpo-badge mpo-free">Free</span>
+                        </button>
+                        <button class="model-pick-option" data-model="keryo-pro" data-plan="pro">
+                            <div class="mpo-info">
+                                <span class="mpo-name">Keryo Pro</span>
+                                <span class="mpo-desc">Powered by Groq · Fast</span>
+                            </div>
+                            <span class="mpo-badge mpo-pro">Pro</span>
+                        </button>
+                        <button class="model-pick-option" data-model="keryo-premium" data-plan="premium">
+                            <div class="mpo-info">
+                                <span class="mpo-name">Keryo Premium</span>
+                                <span class="mpo-desc">Best quality · Full power</span>
+                            </div>
+                            <span class="mpo-badge mpo-premium">Premium</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <button id="theme-btn" class="icon-btn" title="Toggle theme">
+                    <svg id="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg id="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                </button>
+                <!-- 3-dot chat menu -->
+                <div class="chat-dot-menu" id="chat-dot-menu">
+                    <button class="icon-btn chat-dot-btn" id="chat-dot-btn" title="Chat options" aria-haspopup="true" aria-expanded="false">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+                    </button>
+                    <div class="chat-dot-dropdown" id="chat-dot-dropdown" style="display:none">
+                        <button class="cdd-item" id="cdd-pin"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 17v5M8 17h8M5.586 10.586L12 4.172l6.414 6.414M12 4v8"/></svg>Pin this chat</button>
+                        <button class="cdd-item" id="cdd-rename"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Rename</button>
+                        <div class="cdd-sep"></div>
+                        <button class="cdd-item cdd-delete" id="cdd-delete"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>Delete chat</button>
+                    </div>
+                </div>
+                <button id="nav-signin-btn" class="nav-signin-btn" style="display:none">Sign in</button>
+            </div>
+        </nav>
+
+        <!-- Messages -->
+        <div class="messages-container" id="messages-container">
+            <div class="scroll-indicator" id="scroll-indicator" style="width:0%"></div>
+
+            <div id="welcome-screen" class="welcome-screen">
+                <div class="welcome-logo-wrap">
+                    <div class="welcome-logo-3d" id="welcome-logo-3d">
+                        <div class="wl-glow"></div>
+                        <div class="wl-rings">
+                            <div class="wl-ring wlr1"></div>
+                            <div class="wl-ring wlr2"></div>
+                        </div>
+                        <div class="wl-core">
+                            <svg viewBox="0 0 64 64" fill="none" class="wl-svg">
+                                <polygon class="wl-hex" points="32,3 58,18 58,46 32,61 6,46 6,18"/>
+                                <rect class="wl-k-bar" x="19" y="16" width="5" height="32" rx="2"/>
+                                <polygon class="wl-k-top" points="24,32 40,16 46,16 30,32"/>
+                                <polygon class="wl-k-bot" points="24,32 40,48 46,48 30,32"/>
+                                <circle class="wl-dot" cx="32" cy="32" r="3"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="welcome-title">Hello! I'm <span class="grad-text">Keryo AI</span></h2>
+                <p class="welcome-sub" id="welcome-subtitle">Ask anything — I'll help with study, code, writing, research, and more.</p>
+                <div class="example-prompts" id="example-prompts"></div>
+            </div>
+
+            <div id="messages" class="messages"></div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div id="guest-banner" class="guest-banner" style="display:none">
+                <span id="guest-banner-text">Sign in to save chats and unlock all features</span>
+                <button id="guest-banner-signin" class="gbanner-btn">Sign in</button>
+                <button id="guest-banner-close" class="gbanner-close">×</button>
+            </div>
+
+            <div class="input-card" id="input-card">
+                <!-- Persona chips -->
+                <div class="persona-bar" id="persona-bar">
+                    <button class="persona-chip active" data-mode="general" title="General AI">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                        <span>General</span>
+                    </button>
+                    <button class="persona-chip" data-mode="student" title="Student & Study">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+                        <span>Student</span>
+                    </button>
+                    <button class="persona-chip" data-mode="developer" title="Developer & Code">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        <span>Dev</span>
+                    </button>
+                    <button class="persona-chip" data-mode="creator" title="Content Creator">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        <span>Creator</span>
+                    </button>
+                    <button class="persona-chip" data-mode="writer" title="Writer">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        <span>Writer</span>
+                    </button>
+                    <button class="persona-chip" data-mode="research" title="Research & Analysis">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <span>Research</span>
+                    </button>
+                </div>
+
+                <!-- Quick action tools -->
+                <div class="mode-tools-strip" id="mode-tools-strip"></div>
+
+                <!-- File previews -->
+                <div class="file-preview-strip" id="file-preview-strip" style="display:none"></div>
+
+                <!-- Textarea -->
+                <textarea id="user-input" class="chat-input" placeholder="Ask Keryo anything…" rows="1" maxlength="16000" aria-label="Message input"></textarea>
+
+                <!-- Actions row -->
+                <div class="input-actions">
+                    <div class="input-actions-left">
+                        <button id="attach-btn" class="input-icon-btn" title="Attach file">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+                        </button>
+                        <button id="mic-btn" class="input-icon-btn" title="Voice input">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                        </button>
+                        <button id="tts-btn" class="input-icon-btn" title="Read aloud">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>
+                        </button>
+                        <span id="char-count" class="char-count"></span>
+                    </div>
+                    <div class="input-actions-right">
+                        <button id="stop-btn" class="stop-btn" style="display:none">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+                            Stop
+                        </button>
+                        <button id="send-btn" class="send-btn" disabled aria-label="Send">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-footer">
+                <span class="input-hint">Keryo AI may make mistakes. Verify important information. &nbsp;·&nbsp; by Roshan</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODALS -->
+
+<!-- Settings -->
+<div id="settings-modal" class="modal-backdrop" style="display:none" aria-modal="true" role="dialog">
+    <div class="modal-box settings-modal-box">
+        <div class="modal-header">
+            <h2 class="modal-title">Settings</h2>
+            <button id="settings-close" class="modal-close-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="modal-body settings-body">
+            <div class="settings-section">
+                <div class="settings-section-title">Appearance</div>
+                <div class="setting-group">
+                    <label class="setting-label">Theme</label>
+                    <div class="theme-options">
+                        <button class="theme-option-btn active" data-theme="light">Light</button>
+                        <button class="theme-option-btn" data-theme="dark">Dark</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Font Size</label>
+                    <div class="font-size-row">
+                        <button class="font-size-btn" data-size="small" style="font-size:12px">A</button>
+                        <button class="font-size-btn active" data-size="normal" style="font-size:15px">A</button>
+                        <button class="font-size-btn" data-size="large" style="font-size:18px">A</button>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <div class="settings-section-title">AI Model</div>
+                <div class="setting-group">
+                    <label class="setting-label">Model</label>
+                    <select id="model-select" class="setting-select">
+                        <option value="keryo-free">Keryo Spark (Free)</option>
+                        <option value="keryo-pro">Keryo Pro</option>
+                        <option value="keryo-premium">Keryo Premium</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Temperature (Creativity)</label>
+                    <div class="temp-row">
+                        <input type="range" id="temp-slider" class="temp-slider" min="0" max="100" value="70" step="5">
+                        <span id="temp-label" class="temp-label">0.7</span>
+                    </div>
+                    <div class="temp-hints"><span>Precise</span><span>Balanced</span><span>Creative</span></div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <div class="settings-section-title">Language &amp; Format</div>
+                <div class="setting-group">
+                    <label class="setting-label">Response Language</label>
+                    <select id="lang-select" class="setting-select">
+                        <option value="en">English</option>
+                        <option value="hinglish">Hinglish</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ja">日本語</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Response Length</label>
+                    <select id="length-select" class="setting-select">
+                        <option value="concise">Concise</option>
+                        <option value="balanced" selected>Balanced</option>
+                        <option value="detailed">Detailed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="settings-section">
+                <div class="settings-section-title">Notifications &amp; Features</div>
+                <div class="setting-group"><div class="setting-toggle-row"><span class="setting-desc">Sound when response completes</span><button id="sound-toggle" class="toggle-btn on" aria-pressed="true"><span class="toggle-thumb"></span></button></div></div>
+                <div class="setting-group"><div class="setting-toggle-row"><span class="setting-desc">Show follow-up question chips</span><button id="followup-toggle" class="toggle-btn on" aria-pressed="true"><span class="toggle-thumb"></span></button></div></div>
+                <div class="setting-group"><div class="setting-toggle-row"><span class="setting-desc">Show reading time estimate</span><button id="readtime-toggle" class="toggle-btn on" aria-pressed="true"><span class="toggle-thumb"></span></button></div></div>
+            </div>
+            <div class="settings-section">
+                <div class="settings-section-title">Memory</div>
+                <div class="setting-group">
+                    <label class="setting-label">Remember across conversations</label>
+                    <textarea id="memory-input" class="memory-textarea" placeholder="e.g. My name is Rahul. I'm a Class 10 CBSE student. Explain in Hinglish."></textarea>
+                    <div class="setting-row" style="margin-top:8px">
+                        <button id="memory-save-btn" class="setting-action-btn primary">Save Memory</button>
+                        <button id="memory-clear-btn" class="setting-action-btn">Clear</button>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <div class="settings-section-title">Data &amp; Export</div>
+                <div class="setting-group">
+                    <label class="setting-label">Export Current Chat</label>
+                    <div class="setting-row">
+                        <button id="export-txt-btn" class="setting-action-btn">Export TXT</button>
+                        <button id="export-pdf-btn" class="setting-action-btn">Export HTML</button>
+                        <button id="export-json-btn" class="setting-action-btn">Export JSON</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <div class="setting-row">
+                        <button id="clear-all-chats-btn" class="setting-action-btn danger-btn">Clear All Chats</button>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <div class="settings-section-title">Billing</div>
+                <div class="setting-group">
+                    <div class="billing-plan-row">
+                        <div class="billing-plan-info">
+                            <span class="billing-plan-name" id="settings-plan-name">Free Plan</span>
+                            <span class="billing-plan-desc">Basic access · Limited tools</span>
+                        </div>
+                        <button id="settings-upgrade-btn" class="upgrade-btn-sm">Upgrade ✦</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upgrade Modal -->
+<div id="upgrade-modal" class="modal-backdrop" style="display:none" aria-modal="true" role="dialog">
+    <div class="modal-box upgrade-modal-box">
+        <div class="modal-header">
+            <h2 class="modal-title">Upgrade Keryo AI ✦</h2>
+            <button id="upgrade-modal-close" class="modal-close-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="modal-body upgrade-body">
+            <p class="upgrade-tagline">Unlock the full power of Keryo AI</p>
+            <div class="plans-grid">
+                <!-- Free -->
+                <div class="plan-card" data-plan="free">
+                    <div class="plan-name">Free</div>
+                    <div class="plan-price" data-original="0">₹0<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>✓ 30 messages/day</li>
+                        <li>✓ General &amp; Student modes</li>
+                        <li>✓ Basic chat</li>
+                        <li>✗ No memory</li>
+                        <li>✗ Limited modes</li>
+                    </ul>
+                    <button class="plan-btn plan-current" disabled>Current Plan</button>
+                </div>
+                <!-- Pro -->
+                <div class="plan-card plan-popular" data-plan="pro">
+                    <div class="plan-badge-popular">🔥 Limited Offer</div>
+                    <div class="plan-name">Pro</div>
+                    <div class="plan-price" data-original="99">₹99<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>✓ 200 messages/day</li>
+                        <li>✓ All 6 AI modes</li>
+                        <li>✓ Full memory</li>
+                        <li>✓ Priority responses</li>
+                        <li>✓ No ads</li>
+                    </ul>
+                    <button class="plan-btn plan-upgrade-btn">Upgrade to Pro</button>
+                </div>
+                <!-- Premium -->
+                <div class="plan-card" data-plan="premium">
+                    <div class="plan-name">Premium</div>
+                    <div class="plan-price" data-original="299">₹299<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>✓ Unlimited messages</li>
+                        <li>✓ Everything in Pro</li>
+                        <li>✓ Keryo Premium model</li>
+                        <li>✓ API access</li>
+                        <li>✓ Priority support</li>
+                    </ul>
+                    <button class="plan-btn plan-upgrade-btn">Upgrade to Premium</button>
+                </div>
+            </div>
+
+            <!-- ── Coupon Section ── -->
+            <div class="coupon-section" id="coupon-section">
+                <div class="coupon-row">
+                    <input
+                        type="text"
+                        id="coupon-input"
+                        class="coupon-input"
+                        placeholder="Have a coupon code?"
+                        autocomplete="off"
+                        spellcheck="false"
+                        maxlength="40"
+                    >
+                    <button id="coupon-apply-btn" class="coupon-apply-btn">Apply</button>
+                </div>
+                <div id="coupon-msg" class="coupon-msg" style="display:none"></div>
+            </div>
+
+            <!-- Coupon code section -->
+            <div class="coupon-section" id="coupon-section">
+                <div class="coupon-row">
+                    <input
+                        type="text"
+                        id="coupon-input"
+                        class="coupon-input"
+                        placeholder="Have a coupon code?"
+                        autocomplete="off"
+                        maxlength="40"
+                        aria-label="Coupon code"
+                    >
+                    <button id="coupon-apply-btn" class="coupon-apply-btn">Apply</button>
+                </div>
+                <div id="coupon-feedback" class="coupon-feedback" style="display:none"></div>
+            </div>
+            <p class="upgrade-secure-note">🔒 Payments secured by Razorpay · Cancel anytime · 1-month billing</p>
+        </div>
+    </div>
+</div>
+
+<!-- Saved Topics Modal -->
+<div id="weak-topics-modal" class="modal-backdrop" style="display:none" aria-modal="true" role="dialog">
+    <div class="modal-box">
+        <div class="modal-header"><h2 class="modal-title">Saved Topics</h2><button id="weak-topics-close" class="modal-close-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        <div class="modal-body"><p class="memory-desc">Save topics to practice. Keryo will help you master them.</p><div id="weak-topics-list" class="weak-topics-list"></div><div class="weak-topic-add-row"><input type="text" id="weak-topic-input" class="setting-select" placeholder="Topic name…" style="flex:1"><select id="weak-topic-subject" class="setting-select" style="width:130px"><option>Math</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>English</option><option>History</option><option>Geography</option><option>Computer</option><option>Other</option></select><button id="weak-topic-add-btn" class="setting-action-btn primary">Add</button></div></div>
+    </div>
+</div>
+
+<!-- Prompt Library Modal -->
+<div id="prompt-lib-modal" class="modal-backdrop" style="display:none" aria-modal="true" role="dialog">
+    <div class="modal-box modal-box-wide">
+        <div class="modal-header"><h2 class="modal-title">Prompt Library</h2><button id="prompt-lib-close" class="modal-close-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        <div class="modal-body"><div class="prompt-lib-search-wrap"><input type="text" id="prompt-lib-search" class="prompt-lib-search" placeholder="Search prompts…"></div><div class="prompt-lib-categories" id="prompt-lib-cats"></div><div id="prompt-lib-grid" class="prompt-lib-grid"></div><div class="prompt-lib-add"><div class="settings-section-title" style="margin-bottom:10px">Save Custom Prompt</div><div class="prompt-custom-row"><input type="text" id="custom-prompt-name" class="setting-select" placeholder="Name…" style="flex:1"><input type="text" id="custom-prompt-cat" class="setting-select" placeholder="Category" style="width:120px"></div><textarea id="custom-prompt-text" class="memory-textarea" placeholder="Write your prompt template…" style="margin-top:8px;min-height:80px"></textarea><button id="custom-prompt-save" class="setting-action-btn primary" style="margin-top:8px">Save Prompt</button></div></div>
+    </div>
+</div>
+
+<!-- Image Viewer Modal -->
+<div id="img-viewer-modal" class="modal-backdrop" style="display:none" aria-modal="true" role="dialog">
+    <div class="img-viewer-box">
+        <button id="img-viewer-close" class="modal-close-btn img-viewer-close-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <img id="img-viewer-src" src="" alt="Generated image" class="img-viewer-img">
+        <div class="img-viewer-actions">
+            <button id="img-viewer-dl-png" class="dl-img-btn">Download PNG</button>
+            <button id="img-viewer-dl-jpg" class="dl-img-btn dl-img-btn-jpg">Download JPG</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast & misc -->
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="overlay" class="overlay"></div>
+<button id="scroll-bottom-btn" class="scroll-bottom-btn" style="display:none">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+</button>
+<input type="file" id="file-input" style="position:fixed;top:-9999px;opacity:0" multiple accept="image/jpeg,image/png,image/gif,image/webp,.pdf,.txt,.md,.json,.csv,.xml,.yaml,.yml,.py,.js,.ts,.jsx,.tsx,.c,.cpp,.java,.go,.rs,.rb,.html,.css,.swift">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+<!-- Razorpay Checkout SDK — loaded dynamically in script.js on payment initiation -->
+<script src="ai.js" defer></script>
+<script src="script.js" defer></script>
+<!-- Delete confirmation banner -->
+<div id="delete-confirm-banner" class="delete-confirm-banner" style="display:none">
+    <div class="dcb-inner">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+        <span class="dcb-text">Delete this chat?</span>
+        <div class="dcb-actions">
+            <button id="dcb-cancel" class="dcb-btn dcb-cancel-btn">Cancel</button>
+            <button id="dcb-confirm" class="dcb-btn dcb-confirm-btn">Delete</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
