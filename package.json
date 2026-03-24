@@ -3,7 +3,7 @@
   "version": "6.3.0",
   "description": "Keryo AI — Your Intelligent Companion",
   "private": true,
-  "engines": { "node": ">=20" },
+  "engines": { "node": "20.x" },
   "type": "module",
   "dependencies": {
     "razorpay": "^2.9.4",
