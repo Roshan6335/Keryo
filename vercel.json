@@ -2,16 +2,6 @@
   "version": 2,
   "buildCommand": "echo 'No build needed'",
   "outputDirectory": "public",
-  "functions": {
-    "api/*.js": {
-      "runtime": "nodejs20.x",
-      "maxDuration": 30
-    },
-    "api/ai-image.js": {
-      "runtime": "nodejs20.x",
-      "maxDuration": 60
-    }
-  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
