@@ -3,10 +3,13 @@
   "version": "6.3.0",
   "description": "Keryo AI — Your Intelligent Companion",
   "private": true,
-  "engines": { "node": "20.x" },
+  "engines": {
+    "node": "20.x"
+  },
   "type": "module",
   "dependencies": {
-    "razorpay": "^2.9.4",
-    "@supabase/supabase-js": "^2.45.0"
+    "@supabase/supabase-js": "^2.45.0",
+    "@vercel/analytics": "^2.0.1",
+    "razorpay": "^2.9.4"
   }
 }
