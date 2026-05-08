@@ -29,7 +29,9 @@
         https://api.groq.com
         https://api.bytez.com
         https://api.razorpay.com
-        https://lumberjack.razorpay.com;
+        https://lumberjack.razorpay.com
+        https://vitals.vercel-insights.com
+        https://*.vercel-analytics.com;
       frame-src https://api.razorpay.com https://checkout.razorpay.com;
       frame-ancestors 'none';
       base-uri 'self';
@@ -830,6 +832,11 @@
 <!-- Razorpay Checkout SDK — loaded dynamically in script.js on payment initiation -->
 <script src="ai.js" defer></script>
 <script src="script.js" defer></script>
+<!-- Vercel Web Analytics -->
+<script type="module">
+  import { inject } from './vercel-analytics.js';
+  inject();
+</script>
 <!-- Delete confirmation banner -->
 <div id="delete-confirm-banner" class="delete-confirm-banner" style="display:none">
     <div class="dcb-inner">
