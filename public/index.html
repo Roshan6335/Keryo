@@ -17,7 +17,8 @@
         https://cdnjs.cloudflare.com
         https://js.puter.com
         https://apis.google.com
-        https://checkout.razorpay.com;
+        https://checkout.razorpay.com
+        https://va.vercel-scripts.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       font-src https://fonts.gstatic.com;
       img-src 'self' data: https: blob:;
@@ -29,7 +30,8 @@
         https://api.groq.com
         https://api.bytez.com
         https://api.razorpay.com
-        https://lumberjack.razorpay.com;
+        https://lumberjack.razorpay.com
+        https://va.vercel-scripts.com;
       frame-src https://api.razorpay.com https://checkout.razorpay.com;
       frame-ancestors 'none';
       base-uri 'self';
@@ -44,6 +46,11 @@
     <link rel="stylesheet" href="style.css">
     <script src="config.js"></script>
     <script src="https://js.puter.com/v2/" async></script>
+    <!-- Vercel Web Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <!-- ══════════════════════════════════════
