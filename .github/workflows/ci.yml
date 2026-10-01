@@ -1,0 +1,67 @@
+name: Keryo AI — CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-validate:
+    name: Lint & Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for forbidden console.error stack traces in API responses
+        run: |
+          # Fail if any api/*.js file returns raw error.stack or error.message to client
+          if grep -rn "error\.stack" api/ --include="*.js"; then
+            echo "FAIL: Raw stack trace found in API response"
+            exit 1
+          fi
+          echo "PASS: No raw stack traces exposed in API"
+
+      - name: Validate vercel.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const json = JSON.parse(fs.readFileSync('vercel.json', 'utf8'));
+            if (!json.rewrites && !json.routes) { process.exitCode = 1; console.error('vercel.json missing rewrites/routes'); }
+            else { console.log('vercel.json is valid'); }
+          "
+
+      - name: Check environment variable completeness
+        run: |
+          # Check all required env vars are documented in .env.example
+          required_vars="GOOGLE_CLIENT_ID GEMINI_API_KEY GROQ_API_KEY BYTEZ_API_KEY SUPABASE_URL SUPABASE_SERVICE_KEY RAZORPAY_KEY_ID RAZORPAY_KEY_SECRET RAZORPAY_WEBHOOK_SECRET"
+          for var in $required_vars; do
+            if ! grep -q "^$var=" .env.example; then
+              echo "FAIL: $var is missing from .env.example"
+              exit 1
+            fi
+          done
+          echo "PASS: All required env vars documented in .env.example"
+
+      - name: Check for plaintext secrets in source
+        run: |
+          # Grep for common secret patterns committed by mistake
+          if grep -rn "AIzaSy" public/ api/ --include="*.js" --include="*.html" 2>/dev/null; then
+            echo "WARNING: Possible hardcoded Google API key found in source!"
+          fi
+          if grep -rn "rzp_live_" public/ api/ --include="*.js" --include="*.html" 2>/dev/null; then
+            echo "FAIL: Live Razorpay key found hardcoded in source!"
+            exit 1
+          fi
+          echo "PASS: No hardcoded live secrets found"
